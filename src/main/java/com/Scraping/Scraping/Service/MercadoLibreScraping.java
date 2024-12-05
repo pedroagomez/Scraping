@@ -12,17 +12,16 @@ import java.util.List;
 
 @Service
 public class MercadoLibreScraping {
-    public List<Product> scrapeDetails() {
+    public List<Product> scrapeDetails(int page) {
         List<Product> products = new ArrayList<>();
         try {
-            String url = "https://www.mercadolibre.com.ar/ofertas";
 
+            String url = "https://www.mercadolibre.com.ar/ofertas?page=" + page;
 
             Document doc = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
                     .timeout(10000)
                     .get();
-
 
             for (Element deal : doc.select("div.andes-card.andes-card--padding-0.andes-card--animated")) {
 
@@ -34,11 +33,6 @@ public class MercadoLibreScraping {
                 if (imageUrl.isEmpty()) {
                     imageUrl = deal.select("img").attr("src");
                 }
-
-                System.out.println("Título: " + title);
-                System.out.println("Precio: " + price);
-                System.out.println("Enlace: " + link);
-                System.out.println("Imagen: " + imageUrl);
 
                 if (!title.isEmpty() && !price.isEmpty() && !link.isEmpty() && !imageUrl.isEmpty()) {
                     products.add(new Product(title, price, link, imageUrl));

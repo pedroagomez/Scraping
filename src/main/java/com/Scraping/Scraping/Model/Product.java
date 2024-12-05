@@ -17,7 +17,7 @@ public class Product {
         this.imageUrl=imageUrl;
     }
 
-    // Constructor vacío necesario para Jackson
+
     public Product() {
     }
 
